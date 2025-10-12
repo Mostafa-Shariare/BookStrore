@@ -1,5 +1,6 @@
 const express = require("express")
 const app = express();
+const cors = require("cors")
 require("dotenv").config();
 
 require("./conn/conn")
@@ -10,6 +11,8 @@ const favourite = require("./routes/favourite")
 const cart = require("./routes/cart")
 const oder = require("./routes/order");
 const order = require("./models/order");
+
+app.use(cors())
 
 app.use(express.json())
 

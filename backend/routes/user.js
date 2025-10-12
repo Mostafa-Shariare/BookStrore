@@ -86,7 +86,7 @@ router.post("/sign-in", async(req, res) => {
         const existingUser = await User.findOne({ username })
         if (!existingUser) {
 
-            res.status(400).json({ message: "Invalid Username" })
+            return res.status(400).json({ message: "Invalid Username" })
             
         }
 
