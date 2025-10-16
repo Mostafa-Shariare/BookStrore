@@ -26,7 +26,7 @@ const Sidebar = ({ data }) => {
       {/* Navigation Links */}
       <div className='w-full flex flex-col mt-6 space-y-3'>
         <Link
-          to="/profile/fav"
+          to="/profile"
           className="text-zinc-100 font-medium w-full py-2 text-center hover:bg-zinc-900 rounded-lg transition-all duration-300"
         >
           Favourites

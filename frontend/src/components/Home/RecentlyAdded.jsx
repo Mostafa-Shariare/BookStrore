@@ -38,14 +38,19 @@ const RecentlyAdded = () => {
   }
 
   return (
-    <section className="mt-12 px-6 lg:px-16">
+    <section className="mt-12 px-6 lg:px-16 py-10 bg-zinc-800/40 backdrop-blur-sm rounded-2xl shadow-lg transition-all duration-500">
       <h2 className="text-amber-200 text-3xl lg:text-4xl font-bold mb-6 border-l-4 border-amber-200 pl-3">
         Recently Added Books
       </h2>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
         {data.map((item, i) => (
-          <BookCard key={i} data={item} />
+          <div
+            key={i}
+            className="transform hover:scale-[1.03] transition-transform duration-300"
+          >
+            <BookCard data={item} />
+          </div>
         ))}
       </div>
     </section>

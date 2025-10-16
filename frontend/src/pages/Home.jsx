@@ -4,9 +4,13 @@ import RecentlyAdded from '../components/Home/RecentlyAdded'
 
 const Home = () => {
   return (
-    <div className='h-screen bg-zinc-900 text-white px-10 py-8'>
-      <Hero/>
-      <RecentlyAdded/>
+    <div className="min-h-screen bg-gradient-to-b from-zinc-900 via-zinc-800 to-zinc-900 text-white px-6 md:px-10 py-8 space-y-20">
+      <Hero />
+
+      {/* Section Divider */}
+      <div className="w-full h-[2px] bg-gradient-to-r from-transparent via-amber-200/40 to-transparent" />
+
+      <RecentlyAdded />
     </div>
   )
 }
