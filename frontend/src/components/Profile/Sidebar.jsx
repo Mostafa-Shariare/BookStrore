@@ -1,8 +1,16 @@
 import React from 'react'
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import { FaArrowRightFromBracket } from "react-icons/fa6"
+import { useDispatch, useSelector } from 'react-redux'
+import { authActions } from '../../store/auth'
+
 
 const Sidebar = ({ data }) => {
+
+  const dispatch = useDispatch()
+  const role = useSelector((state) => state.auth.role)
+  const history = useNavigate()
+
   return (
     <div className='bg-zinc-800 rounded-2xl p-6 flex flex-col items-center h-full shadow-lg shadow-zinc-950/40'>
       {/* Profile Info */}
@@ -24,7 +32,8 @@ const Sidebar = ({ data }) => {
       </div>
 
       {/* Navigation Links */}
-      <div className='w-full flex flex-col mt-6 space-y-3'>
+      {role === "user" && (
+          <div className='w-full flex flex-col mt-6 space-y-3'>
         <Link
           to="/profile"
           className="text-zinc-100 font-medium w-full py-2 text-center hover:bg-zinc-900 rounded-lg transition-all duration-300"
@@ -46,9 +55,39 @@ const Sidebar = ({ data }) => {
           Settings
         </Link>
       </div>
+      )}
+
+      {role === "admin" && (
+          <div className='w-full flex flex-col mt-6 space-y-3'>
+        <Link
+          to="/profile"
+          className="text-zinc-100 font-medium w-full py-2 text-center hover:bg-zinc-900 rounded-lg transition-all duration-300"
+        >
+          All Orders
+        </Link>
+
+        <Link
+          to="/profile/add-book"
+          className="text-zinc-100 font-medium w-full py-2 text-center hover:bg-zinc-900 rounded-lg transition-all duration-300"
+        >
+          Add Book
+        </Link>
+
+        
+      </div>
+      )}
 
       {/* Logout Button */}
-      <button className='mt-auto bg-zinc-900 w-full py-2.5 rounded-lg text-white font-semibold flex items-center justify-center gap-2 hover:bg-zinc-950 transition-all duration-300'>
+      <button className='mt-auto bg-zinc-900 w-full py-2.5 rounded-lg text-white font-semibold flex items-center justify-center gap-2 hover:bg-zinc-950 transition-all duration-300'
+      onClick={() => {
+        dispatch(authActions.logout());
+        dispatch(authActions.changeRole("user"))
+        localStorage.removeItem("id")
+        localStorage.removeItem("token")
+        localStorage.removeItem("role")
+        history("/")
+      }}
+      >
         Log Out <FaArrowRightFromBracket className="text-lg" />
       </button>
     </div>

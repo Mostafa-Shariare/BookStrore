@@ -60,22 +60,33 @@ const Cart = () => {
         { order: Cart },
         { headers }
       );
-      alert(response.data.message);
-      navigate("/profile/orderHistory");
+
+      if (response.data.status === "success") {
+        alert(response.data.message);
+        setCart([]); // Clear cart in frontend
+        navigate("/profile/orderHistory");
+      } else {
+        alert("Failed to place order. Please try again.");
+      }
     } catch (error) {
       console.log("Error placing order:", error);
+      if (error.response?.data?.message) {
+        alert(`Error: ${error.response.data.message}`);
+      } else {
+        alert("Failed to place order. Please check your connection and try again.");
+      }
     }
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 p-6">
+    <div className="min-h-screen bg-zinc-900 p-6 text-zinc-100">
       {Cart.length === 0 ? (
-        <h1 className="text-center text-2xl font-semibold text-gray-700">
+        <h1 className="text-center text-2xl font-semibold text-zinc-400">
           🛒 Your Cart is Empty
         </h1>
       ) : (
         <div className="max-w-5xl mx-auto">
-          <h1 className="text-3xl font-bold text-blue-600 mb-6 text-center">
+          <h1 className="text-3xl font-bold text-zinc-100 mb-6 text-center">
             Your Cart
           </h1>
 
@@ -83,7 +94,7 @@ const Cart = () => {
             {Cart.map((item, i) => (
               <div
                 key={i}
-                className="flex flex-col md:flex-row items-center bg-white p-4 rounded-2xl shadow hover:shadow-lg transition"
+                className="flex flex-col md:flex-row items-center bg-zinc-800 p-4 rounded-2xl shadow hover:bg-zinc-700 transition"
               >
                 <img
                   src={item.url}
@@ -91,11 +102,13 @@ const Cart = () => {
                   className="w-32 h-40 object-cover rounded-xl mr-4"
                 />
                 <div className="flex-1 text-center md:text-left">
-                  <h2 className="text-lg font-semibold text-gray-800">{item.name}</h2>
-                  <p className="text-gray-600 text-sm my-2">
+                  <h2 className="text-lg font-semibold text-zinc-100">
+                    {item.name}
+                  </h2>
+                  <p className="text-zinc-400 text-sm my-2">
                     {item.desc?.slice(0, 100)}...
                   </p>
-                  <h3 className="text-blue-600 font-bold text-xl mb-2">
+                  <h3 className="text-blue-400 font-bold text-xl mb-2">
                     ${item.price}
                   </h3>
                   <button
@@ -109,11 +122,13 @@ const Cart = () => {
             ))}
           </div>
 
-          <div className="bg-white mt-10 p-6 rounded-2xl shadow-md text-center">
-            <h1 className="text-2xl font-semibold mb-2">Total Amount</h1>
-            <h2 className="text-lg text-gray-600">
+          <div className="bg-zinc-800 mt-10 p-6 rounded-2xl shadow-md text-center">
+            <h1 className="text-2xl font-semibold mb-2 text-zinc-100">
+              Total Amount
+            </h1>
+            <h2 className="text-lg text-zinc-400">
               {Cart.length} {Cart.length > 1 ? "books" : "book"} —{" "}
-              <span className="text-blue-600 font-bold text-2xl">${Total}</span>
+              <span className="text-blue-400 font-bold text-2xl">${Total}</span>
             </h2>
             <button
               onClick={placeOrder}

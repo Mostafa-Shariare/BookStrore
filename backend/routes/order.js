@@ -10,6 +10,7 @@ router.post("/place-order", authenticateToken, async (req, res) => {
 
         const { id } = req.headers;
         const { order } = req.body;
+        
          
         for (const orderData of order) {
             const newOrder = new Order({ user: id, book: orderData._id });
@@ -19,12 +20,12 @@ router.post("/place-order", authenticateToken, async (req, res) => {
             await User.findByIdAndUpdate(id, {
                 $push: { orders: orderDataFromDB._id },
             });
-
-            //clearing cart
-            await User.findByIdAndUpdate(id, {
-                $pull: { cart: orderData._id },
-            });
         }
+        
+        // Clear entire cart after all orders are placed
+        await User.findByIdAndUpdate(id, {
+            $set: { cart: [] },
+        });
         return res.json({
             status: "success",
             message: "Order Placed Successfully",
@@ -32,12 +33,13 @@ router.post("/place-order", authenticateToken, async (req, res) => {
 
 
     } catch (error) {
+  console.log(error);
+  return res.status(500).json({
+    status: "failed",
+    message: "Something went wrong while placing the order",
+  });
+}
 
-        console.log(error)
-        return res.status(500)
-
-
-    }
 
 })
 

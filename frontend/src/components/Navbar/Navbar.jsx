@@ -5,19 +5,32 @@ import { useSelector } from "react-redux"
 export const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
 
-  const links = [
-    { title: "Home", link: "/" },
-    { title: "About Us", link: "/about-us" },
-    { title: "All Books", link: "/all-books" },
-    { title: "Cart", link: "/cart" },
-    { title: "Profile", link: "/profile" },
+  const baseLinks = [
+    { key: 'home', title: "Home", link: "/" },
+    { key: 'all', title: "All Books", link: "/all-books" },
+    { key: 'cart', title: "Cart", link: "/cart" },
+    { key: 'profile', title: "Profile", link: "/profile" },
+    { key: 'admin', title: "Admin Profile", link: "/profile" },
   ]; 
 
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
-  
-  if(isLoggedIn === false){
-    links.splice(3,2)
-  }
+  const role = useSelector((state) => state.auth.role)
+
+  let links = baseLinks.filter((item) => {
+    if (!isLoggedIn) {
+      // hide cart and profile when logged out
+      return item.key !== 'cart' && item.key !== 'profile' && item.key !== 'admin';
+    }
+    if (role === 'user') {
+      // hide admin link for normal users
+      return item.key !== 'admin';
+    }
+    if (role === 'admin') {
+      // hide user profile link if admin has its own
+      return item.key !== 'profile';
+    }
+    return true;
+  });
   
 
   return (
