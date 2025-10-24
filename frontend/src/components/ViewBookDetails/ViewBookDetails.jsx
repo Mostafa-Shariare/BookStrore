@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { FaHeart, FaShoppingCart, FaEdit } from "react-icons/fa";
 import { MdDeleteOutline } from "react-icons/md";
 import { useSelector } from "react-redux";
@@ -10,6 +10,7 @@ const ViewBookDetails = () => {
   const [Data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const navigate = useNavigate()
 
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
   const role = useSelector((state) => state.auth.role);
@@ -35,7 +36,7 @@ const ViewBookDetails = () => {
 
   const headers = { 
     id: localStorage.getItem("id"),
-    authorization: `Bearer ${localStorage.getItem("token")}`,
+    authorization: `Bearer+ ${localStorage.getItem("token")}`,
     bookid : id,
   }
 
@@ -71,6 +72,20 @@ const ViewBookDetails = () => {
     );
   }
 
+  const deleteBook = async () => {
+    const response = await axios.delete(
+      "http://localhost:3000/api/v1/delete-book",
+      {headers}
+    )
+    
+    console.log(response.data.message);
+    alert(response.data.message);
+
+
+    
+    navigate("/all-books")
+  }
+
   return (
     <div className="px-6 md:px-12 py-8 bg-zinc-900 flex flex-col md:flex-row gap-10 min-h-screen">
       {/* Image Section */}
@@ -96,10 +111,10 @@ const ViewBookDetails = () => {
         {/* admin */}
         {isLoggedIn === true && role === "admin" && (
           <div className="flex md:flex-col gap-4 mt-4">
-            <button className="bg-white hover:bg-gray-200 rounded-full text-2xl p-3 transition duration-200 shadow-md">
+            <button className="bg-white hover:bg-gray-200 rounded-full text-2xl p-3 transition duration-200 shadow-md" >
               <FaEdit className="text-green-500" />
             </button>
-            <button className="bg-white hover:bg-gray-200 rounded-full text-2xl p-3 transition duration-200 shadow-md">
+            <button className="bg-white hover:bg-gray-200 rounded-full text-2xl p-3 transition duration-200 shadow-md" onClick={deleteBook}>
               <MdDeleteOutline className="text-red-600" />
             </button>
           </div>
