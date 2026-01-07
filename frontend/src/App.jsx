@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import Home from './pages/Home'
 import { Navbar } from './components/Navbar/Navbar'
 import { Footer } from './components/Footer/Footer'
@@ -32,7 +32,7 @@ function App() {
       dispatch(authActions.changeRole(localStorage.getItem("role")))
 
     }
-  }, [])
+  }, [dispatch])
 
 
   return (
@@ -46,15 +46,25 @@ function App() {
           <Route path='/all-books' element={<AllBooks />} />
           <Route path='/cart' element={< Cart/>} />
           <Route path='/profile' element={<Profile />}>
-            {role === "user" ? 
-              <Route index element={<Favourites />} /> : 
+            {role === "user" ? (
+              <Route index element={<Favourites />} />
+            ) : (
               <Route index element={<AllOrders />} />
-            }
-
-            { role === "admin" && (
-              <Route path='/profile/add-book' element={<AddBook />} />
             )}
-            <Route path='/profile/settings' element={<Settings />} />
+
+            {/* User order history */}
+            <Route
+              path='orderHistory'
+              element={role === "user" ? <UserOrderHistro /> : <AllOrders />}
+            />
+
+            {/* Admin-only add book */}
+            {role === "admin" && (
+              <Route path='add-book' element={<AddBook />} />
+            )}
+
+            {/* Shared settings route */}
+            <Route path='settings' element={<Settings />} />
           </Route>
           <Route path='/Signup' element={<Signup />} />
           <Route path='/Login' element={<Login />} />

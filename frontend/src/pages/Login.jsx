@@ -57,18 +57,25 @@ const Login = () => {
 
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-zinc-900 p-6">
-      <form className="bg-zinc-800 p-6 rounded-lg w-full max-w-md flex flex-col gap-4">
-        <h2 className="text-2xl text-zinc-200 font-semibold">Login</h2>
+    <div className="flex items-center justify-center min-h-screen bg-gradient-to-b from-amber-50 via-orange-50 to-amber-100 px-4 py-10">
+      <form className="w-full max-w-md bg-white border border-amber-100 rounded-2xl px-6 py-7 flex flex-col gap-5 shadow-sm">
+        <div className="space-y-1">
+          <h2 className="text-2xl text-slate-900 font-semibold tracking-tight">Welcome back</h2>
+          <p className="text-sm text-slate-600">
+            Sign in to continue exploring and managing your favourite books.
+          </p>
+        </div>
 
         <div>
-          <label htmlFor="username" className="text-zinc-400 text-sm">Username</label>
+          <label htmlFor="username" className="text-slate-500 text-xs font-medium uppercase tracking-wide">
+            Username
+          </label>
           <input
             id="username"
             name="username"
             type="text"
             placeholder="Username"
-            className="w-full mt-1 p-2 rounded bg-zinc-900 text-zinc-100 outline-none focus:ring-2 focus:ring-zinc-700"
+            className="w-full mt-1 p-2.5 rounded-lg bg-amber-50 border border-amber-200 text-slate-900 text-sm outline-none focus:ring-2 focus:ring-amber-400/60 focus:border-amber-400 transition-colors"
             required
             value={Values.username}
             onChange={change}
@@ -76,13 +83,15 @@ const Login = () => {
         </div>
 
         <div>
-          <label htmlFor="password" className="text-zinc-400 text-sm">Password</label>
+          <label htmlFor="password" className="text-slate-500 text-xs font-medium uppercase tracking-wide">
+            Password
+          </label>
           <input
             id="password"
             name="password"
             type="password"
             placeholder="Enter password"
-            className="w-full mt-1 p-2 rounded bg-zinc-900 text-zinc-100 outline-none focus:ring-2 focus:ring-zinc-700"
+            className="w-full mt-1 p-2.5 rounded-lg bg-amber-50 border border-amber-200 text-slate-900 text-sm outline-none focus:ring-2 focus:ring-amber-400/60 focus:border-amber-400 transition-colors"
             required
             value={Values.password}
             onChange={change}
@@ -91,11 +100,18 @@ const Login = () => {
 
         <button
           type="submit"
-          className="mt-2 bg-zinc-700 text-white py-2 rounded hover:bg-zinc-600"
+          className="mt-1 bg-amber-500 text-amber-950 py-2.5 rounded-lg text-sm font-semibold hover:bg-amber-400 transition-colors duration-200 shadow-sm"
           onClick={submit}
         >
           Login
         </button>
+
+        <p className="text-xs text-slate-500 text-center mt-1">
+          Don&apos;t have an account?{" "}
+          <Link to="/Signup" className="text-amber-700 hover:text-amber-600 font-medium">
+            Sign up
+          </Link>
+        </p>
       </form>
     </div>
   );

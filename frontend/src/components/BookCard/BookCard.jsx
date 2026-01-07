@@ -30,9 +30,9 @@ const BookCard = ({ data, Favourite, onRemove }) => {
   return (
     <div className="group">
       <Link to={`/view-book-details/${data._id}`}>
-        <div className="bg-zinc-800 rounded-xl p-4 flex flex-col shadow-md shadow-black/30 hover:shadow-yellow-200/20 hover:scale-[1.03] transition-all duration-300">
+        <div className="bg-white border border-amber-100 rounded-2xl p-4 flex flex-col shadow-sm hover:shadow-lg hover:shadow-amber-200/40 hover:scale-[1.03] transition-all duration-300">
           {/* Image Section */}
-          <div className="bg-zinc-900 rounded-lg flex items-center justify-center overflow-hidden h-[30vh]">
+          <div className="bg-amber-50 rounded-xl flex items-center justify-center overflow-hidden h-[30vh]">
             <img
               src={data.url}
               alt={data.title}
@@ -41,14 +41,19 @@ const BookCard = ({ data, Favourite, onRemove }) => {
           </div>
 
           {/* Title */}
-          <h2 className="mt-4 text-lg md:text-xl text-amber-100 font-semibold truncate">
+          <h2 className="mt-4 text-lg md:text-xl text-slate-900 font-semibold truncate">
             {data.title}
           </h2>
 
           {/* Price */}
-          <p className="mt-2 text-lg text-zinc-300 font-medium">
-            <span className="text-amber-200 font-bold">$</span> {data.price}
-          </p>
+          <div className="mt-3 flex items-center justify-between">
+            <p className="text-lg text-slate-800 font-semibold">
+              <span className="text-amber-600 font-bold">$</span> {data.price}
+            </p>
+            <span className="px-3 py-1 rounded-full text-[11px] uppercase tracking-wide bg-amber-100 text-amber-700 border border-amber-300">
+              {data.language || "Book"}
+            </span>
+          </div>
         </div>
       </Link>
 

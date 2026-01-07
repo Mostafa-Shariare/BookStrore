@@ -19,16 +19,16 @@ export const Hero = () => {
         
         {/* Left Content */}
         <div className="animate-fadeInUp w-full lg:w-1/2 flex flex-col items-center lg:items-start text-center lg:text-left space-y-6">
-          <h1 className="text-4xl lg:text-6xl font-extrabold text-yellow-100 leading-tight tracking-wide">
+          <h1 className="text-4xl lg:text-6xl font-extrabold text-yellow-100 leading-tight tracking-wide drop-shadow-[0_8px_30px_rgba(0,0,0,0.7)]">
             Discover Your Next <br className="hidden lg:block" /> Great Read
           </h1>
 
-          <p className="text-lg lg:text-xl text-zinc-300 max-w-xl">
+          <p className="text-lg lg:text-xl text-zinc-200/90 max-w-xl">
             Uncover captivating stories, enrich your knowledge, and spark endless
             inspiration through our handpicked collection of books.
           </p>
 
-          <button className="mt-4 text-yellow-100 text-lg lg:text-xl font-semibold border border-yellow-100 px-8 py-3 rounded-md hover:bg-yellow-100 hover:text-black transition-all duration-300 shadow-md hover:shadow-[0_0_15px_rgba(255,255,0,0.4)]">
+          <button className="mt-4 text-zinc-950 text-lg lg:text-xl font-semibold bg-amber-300/90 px-8 py-3 rounded-full hover:bg-amber-200 transition-all duration-300 shadow-lg shadow-amber-300/40 hover:shadow-[0_0_25px_rgba(253,224,71,0.7)]">
             Discover Books
           </button>
         </div>
@@ -38,7 +38,7 @@ export const Hero = () => {
           <img
             src="https://images.unsplash.com/photo-1512820790803-83ca734da794?auto=format&fit=crop&w=600&q=80"
             alt="Open book"
-            className="w-[80%] lg:w-[90%] max-w-[500px] drop-shadow-[0_0_15px_rgba(255,255,0,0.3)] hover:scale-105 transition-transform duration-500 rounded-lg animate-[float_4s_ease-in-out_infinite]"
+            className="w-[80%] lg:w-[90%] max-w-[500px] drop-shadow-[0_0_30px_rgba(0,0,0,0.8)] hover:scale-105 transition-transform duration-500 rounded-lg animate-float-soft"
           />
         </div>
       </div>

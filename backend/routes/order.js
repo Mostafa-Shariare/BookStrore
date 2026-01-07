@@ -64,10 +64,17 @@ router.get("/get-order-history", authenticateToken, async (req, res) => {
   }
 });
 
-//admin roll 
+//admin role 
 //get-all-orders ---admin
 router.get("/get-all-orders", authenticateToken, async (req, res) => {
   try {
+    const { id } = req.headers;
+    const user = await User.findById(id);
+
+    if (!user || user.role !== "admin") {
+      return res.status(403).json({ message: "Admin access required" });
+    }
+
     const userData = await Order.find()
       .populate({
         path: "book",
@@ -88,12 +95,18 @@ router.get("/get-all-orders", authenticateToken, async (req, res) => {
 
 });
 
-// //update order --admin
+// update order --admin
 router.put("/update-status/:id", authenticateToken, async (req, res) => {
   try {
+    const { id: userId } = req.headers;
+    const adminUser = await User.findById(userId);
+
+    if (!adminUser || adminUser.role !== "admin") {
+      return res.status(403).json({ message: "Admin access required" });
+    }
+
     const { id } = req.params;
 
-    // Assuming 'Order' is a Mongoose model
     await Order.findByIdAndUpdate(id, { status: req.body.status });
 
     return res.json({

@@ -58,7 +58,7 @@ const ViewBookDetails = () => {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center h-screen bg-zinc-900 text-white">
+      <div className="flex items-center justify-center h-screen bg-amber-50 text-slate-700">
         <p className="text-xl animate-pulse">Loading...</p>
       </div>
     );
@@ -66,7 +66,7 @@ const ViewBookDetails = () => {
 
   if (error) {
     return (
-      <div className="flex items-center justify-center h-screen bg-zinc-900 text-red-500">
+      <div className="flex items-center justify-center h-screen bg-red-50 text-red-700">
         <p className="text-xl">{error}</p>
       </div>
     );
@@ -87,9 +87,9 @@ const ViewBookDetails = () => {
   }
 
   return (
-    <div className="px-6 md:px-12 py-8 bg-zinc-900 flex flex-col md:flex-row gap-10 min-h-screen">
+    <div className="px-6 md:px-12 py-8 bg-gradient-to-b from-amber-50 via-orange-50 to-amber-100 flex flex-col md:flex-row gap-10 min-h-screen text-slate-900">
       {/* Image Section */}
-      <div className="bg-zinc-800 rounded-xl p-8 md:w-3/6 flex flex-col items-center justify-between shadow-xl shadow-black/50 gap-6">
+      <div className="bg-white rounded-xl p-8 md:w-3/6 flex flex-col items-center justify-between shadow-sm border border-amber-100 gap-6">
         <img
           src={Data?.url}
           alt={Data?.title}
@@ -122,25 +122,25 @@ const ViewBookDetails = () => {
       </div>
 
       {/* Details Section */}
-      <div className="bg-zinc-800 rounded-xl p-8 md:w-3/6 flex flex-col gap-6 shadow-xl shadow-black/50 text-gray-100">
-        <h1 className="text-4xl font-extrabold text-white tracking-wide">
+      <div className="bg-white rounded-xl p-8 md:w-3/6 flex flex-col gap-6 shadow-sm border border-amber-100 text-slate-900">
+        <h1 className="text-4xl font-extrabold tracking-wide">
           {Data?.title}
         </h1>
-        <h2 className="text-2xl text-gray-400 italic">by {Data?.author}</h2>
+        <h2 className="text-2xl text-slate-600 italic">by {Data?.author}</h2>
 
-        <div className="border-t border-gray-700 my-4"></div>
+        <div className="border-t border-amber-100 my-4"></div>
 
-        <p className="text-gray-300 text-lg leading-relaxed tracking-wide">
+        <p className="text-slate-700 text-lg leading-relaxed tracking-wide">
           {Data?.desc}
         </p>
 
-        <div className="mt-auto flex flex-col gap-3 text-gray-300">
+        <div className="mt-auto flex flex-col gap-3 text-slate-700">
           <p>
-            <span className="font-semibold text-white">Language:</span>{" "}
+            <span className="font-semibold text-slate-900">Language:</span>{" "}
             {Data?.language}
           </p>
           <p>
-            <span className="font-semibold text-white">Price:</span> ${Data?.price}
+            <span className="font-semibold text-slate-900">Price:</span> ${Data?.price}
           </p>
         </div>
       </div>

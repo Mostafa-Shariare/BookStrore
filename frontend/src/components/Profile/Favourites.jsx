@@ -1,14 +1,17 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import axios from "axios";
 import BookCard from "../BookCard/BookCard";
 
 const Favourites = () => {
   const [favouriteBooks, setFavouriteBooks] = useState([]);
 
-  const headers = {
-    id: localStorage.getItem("id"),
-    authorization: `Bearer ${localStorage.getItem("token")}`,
-  };
+  const headers = useMemo(
+    () => ({
+      id: localStorage.getItem("id"),
+      authorization: `Bearer ${localStorage.getItem("token")}`,
+    }),
+    []
+  );
 
   useEffect(() => {
     const fetchFavourites = async () => {
@@ -24,7 +27,7 @@ const Favourites = () => {
     };
 
     fetchFavourites();
-  }, []); // ✅ Run only once on mount
+  }, [headers]);
 
   // ✅ Remove book instantly from UI when deleted
   const handleRemove = (id) => {
@@ -32,7 +35,7 @@ const Favourites = () => {
   };
 
   return (
-    <div className="flex flex-wrap gap-6 p-6 justify-center">
+    <div className="flex flex-wrap gap-6 p-6 justify-center bg-white rounded-2xl border border-amber-100">
       {favouriteBooks.length > 0 ? (
         favouriteBooks.map((item, i) => (
           <div key={i}>

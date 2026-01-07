@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
@@ -7,10 +7,13 @@ const Cart = () => {
   const [Cart, setCart] = useState([]);
   const [Total, setTotal] = useState(0);
 
-  const headers = {
-    id: localStorage.getItem("id"),
-    authorization: `Bearer ${localStorage.getItem("token")}`,
-  };
+  const headers = useMemo(
+    () => ({
+      id: localStorage.getItem("id"),
+      authorization: `Bearer ${localStorage.getItem("token")}`,
+    }),
+    []
+  );
 
   // Fetch cart items once
   useEffect(() => {
@@ -25,7 +28,7 @@ const Cart = () => {
       }
     };
     fetchCart();
-  }, []);
+  }, [headers]);
 
   // Remove item from cart
   const deleteItem = async (bookid) => {
@@ -79,14 +82,14 @@ const Cart = () => {
   };
 
   return (
-    <div className="min-h-screen bg-zinc-900 p-6 text-zinc-100">
+    <div className="min-h-screen bg-gradient-to-b from-amber-50 via-orange-50 to-amber-100 p-6 text-slate-900">
       {Cart.length === 0 ? (
         <h1 className="text-center text-2xl font-semibold text-zinc-400">
           🛒 Your Cart is Empty
         </h1>
       ) : (
         <div className="max-w-5xl mx-auto">
-          <h1 className="text-3xl font-bold text-zinc-100 mb-6 text-center">
+          <h1 className="text-3xl font-bold text-slate-900 mb-6 text-center">
             Your Cart
           </h1>
 
@@ -94,7 +97,7 @@ const Cart = () => {
             {Cart.map((item, i) => (
               <div
                 key={i}
-                className="flex flex-col md:flex-row items-center bg-zinc-800 p-4 rounded-2xl shadow hover:bg-zinc-700 transition"
+                className="flex flex-col md:flex-row items-center bg-white border border-amber-100 p-4 rounded-2xl shadow-sm hover:shadow-lg hover:border-amber-300/60 transition-colors"
               >
                 <img
                   src={item.url}
@@ -102,13 +105,13 @@ const Cart = () => {
                   className="w-32 h-40 object-cover rounded-xl mr-4"
                 />
                 <div className="flex-1 text-center md:text-left">
-                  <h2 className="text-lg font-semibold text-zinc-100">
+                  <h2 className="text-lg font-semibold text-slate-900">
                     {item.name}
                   </h2>
-                  <p className="text-zinc-400 text-sm my-2">
+                  <p className="text-slate-600 text-sm my-2">
                     {item.desc?.slice(0, 100)}...
                   </p>
-                  <h3 className="text-blue-400 font-bold text-xl mb-2">
+                  <h3 className="text-amber-700 font-bold text-xl mb-2">
                     ${item.price}
                   </h3>
                   <button
@@ -122,17 +125,17 @@ const Cart = () => {
             ))}
           </div>
 
-          <div className="bg-zinc-800 mt-10 p-6 rounded-2xl shadow-md text-center">
-            <h1 className="text-2xl font-semibold mb-2 text-zinc-100">
+          <div className="bg-white mt-10 p-6 rounded-2xl shadow-md text-center border border-amber-100">
+            <h1 className="text-2xl font-semibold mb-2 text-slate-900">
               Total Amount
             </h1>
-            <h2 className="text-lg text-zinc-400">
+            <h2 className="text-lg text-slate-600">
               {Cart.length} {Cart.length > 1 ? "books" : "book"} —{" "}
-              <span className="text-blue-400 font-bold text-2xl">${Total}</span>
+              <span className="text-amber-700 font-bold text-2xl">${Total}</span>
             </h2>
             <button
               onClick={placeOrder}
-              className="mt-4 bg-green-500 hover:bg-green-600 text-white px-6 py-3 rounded-2xl font-semibold transition"
+              className="mt-4 bg-amber-500 hover:bg-amber-400 text-amber-950 px-6 py-3 rounded-2xl font-semibold transition"
             >
               Place Your Order
             </button>

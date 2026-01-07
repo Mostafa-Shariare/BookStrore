@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 
@@ -6,10 +6,13 @@ const UserOrderHistory = () => {
   const [orderHistory, setOrderHistory] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  const headers = {
-    id: localStorage.getItem("id"),
-    authorization: `Bearer ${localStorage.getItem("token")}`,
-  };
+  const headers = useMemo(
+    () => ({
+      id: localStorage.getItem("id"),
+      authorization: `Bearer ${localStorage.getItem("token")}`,
+    }),
+    []
+  );
 
   useEffect(() => {
     const fetchOrders = async () => {
@@ -27,11 +30,11 @@ const UserOrderHistory = () => {
     };
 
     fetchOrders();
-  }, []);
+  }, [headers]);
 
   if (loading) {
     return (
-      <div className="h-[80vh] flex items-center justify-center text-zinc-300 text-2xl">
+      <div className="h-[80vh] flex items-center justify-center text-slate-500 text-2xl">
         Loading...
       </div>
     );
@@ -39,18 +42,20 @@ const UserOrderHistory = () => {
 
   if (!orderHistory || orderHistory.length === 0) {
     return (
-      <div className="h-[80vh] flex items-center justify-center text-zinc-500 text-3xl font-semibold">
+      <div className="h-[80vh] flex items-center justify-center text-slate-400 text-3xl font-semibold">
         No Order History
       </div>
     );
   }
 
   return (
-    <div className="p-6 text-zinc-100 min-h-screen">
-      <h1 className="text-3xl font-semibold mb-6 text-center">Your Order History</h1>
+    <div className="p-6 text-slate-900 min-h-screen bg-white rounded-2xl border border-amber-100">
+      <h1 className="text-3xl font-semibold mb-6 text-center">
+        Your Order History
+      </h1>
 
       {/* Header Row */}
-      <div className="bg-zinc-900 text-zinc-300 rounded-md py-3 px-4 flex gap-4 border-b border-zinc-700 font-semibold">
+      <div className="bg-amber-50 text-slate-700 rounded-md py-3 px-4 flex gap-4 border-b border-amber-200 font-semibold">
         <div className="w-[3%] text-center">Sr.</div>
         <div className="w-[22%]">Book</div>
         <div className="w-[45%]">Description</div>
@@ -63,7 +68,7 @@ const UserOrderHistory = () => {
         {orderHistory.map((items, i) => (
           <div
             key={i}
-            className="bg-zinc-800 w-full rounded-xl py-2 px-4 flex items-center gap-4 hover:bg-zinc-900 hover:cursor-pointer transition-all"
+            className="bg-white w-full rounded-xl py-2 px-4 flex items-center gap-4 hover:bg-amber-50 hover:cursor-pointer transition-all border border-amber-100"
           >
             {/* Serial */}
             <div className="w-[3%] text-center">
