@@ -16,18 +16,19 @@ import UserOrderHistro from './components/Profile/UserOrderHistro'
 import Settings from './components/Profile/Settings'
 import AllOrders from './pages/AllOrders'
 import AddBook from './pages/AddBook'
+import UpdateBook from './pages/UpdateBook'
 
 function App() {
   const dispatch = useDispatch()
   const role = useSelector((state) => state.auth.role)
 
   useEffect(() => {
-    if(
+    if (
       localStorage.getItem("id") &&
       localStorage.getItem("token") &&
       localStorage.getItem("role")
 
-    ){
+    ) {
       dispatch(authActions.login())
       dispatch(authActions.changeRole(localStorage.getItem("role")))
 
@@ -37,44 +38,45 @@ function App() {
 
   return (
     <div>
-      
 
-        <Navbar />
 
-        <Routes>
-          <Route exact path='/' element={<Home />} />
-          <Route path='/all-books' element={<AllBooks />} />
-          <Route path='/cart' element={< Cart/>} />
-          <Route path='/profile' element={<Profile />}>
-            {role === "user" ? (
-              <Route index element={<Favourites />} />
-            ) : (
-              <Route index element={<AllOrders />} />
-            )}
+      <Navbar />
 
-            {/* User order history */}
-            <Route
-              path='orderHistory'
-              element={role === "user" ? <UserOrderHistro /> : <AllOrders />}
-            />
+      <Routes>
+        <Route exact path='/' element={<Home />} />
+        <Route path='/all-books' element={<AllBooks />} />
+        <Route path='/cart' element={< Cart />} />
+        <Route path='/profile' element={<Profile />}>
+          {role === "user" ? (
+            <Route index element={<Favourites />} />
+          ) : (
+            <Route index element={<AllOrders />} />
+          )}
 
-            {/* Admin-only add book */}
-            {role === "admin" && (
-              <Route path='add-book' element={<AddBook />} />
-            )}
+          {/* User order history */}
+          <Route
+            path='orderHistory'
+            element={role === "user" ? <UserOrderHistro /> : <AllOrders />}
+          />
 
-            {/* Shared settings route */}
-            <Route path='settings' element={<Settings />} />
-          </Route>
-          <Route path='/Signup' element={<Signup />} />
-          <Route path='/Login' element={<Login />} />
-          <Route path='view-book-details/:id' element={<ViewBookDetails/>}/>
+          {/* Admin-only add book */}
+          {role === "admin" && (
+            <Route path='add-book' element={<AddBook />} />
+          )}
 
-        </Routes>
+          {/* Shared settings route */}
+          <Route path='settings' element={<Settings />} />
+        </Route>
+        <Route path='/Signup' element={<Signup />} />
+        <Route path='/Login' element={<Login />} />
+        <Route path='view-book-details/:id' element={<ViewBookDetails />} />
+        <Route path='/updateBook/:id' element={<UpdateBook />} />
 
-        
+      </Routes>
 
-      
+
+
+
 
     </div>
   )

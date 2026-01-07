@@ -34,16 +34,16 @@ const ViewBookDetails = () => {
   }, [id]);
 
 
-  const headers = { 
+  const headers = {
     id: localStorage.getItem("id"),
     authorization: `Bearer+ ${localStorage.getItem("token")}`,
-    bookid : id,
+    bookid: id,
   }
 
   const handleFavourite = async () => {
     const response = await axios.put("http://localhost:3000/api/v1/add-book-to-favourite",
       {},
-      {headers}
+      { headers }
     )
     alert(response.data.message)
   }
@@ -51,7 +51,7 @@ const ViewBookDetails = () => {
   const handleCart = async () => {
     const response = await axios.put("http://localhost:3000/api/v1/add-to-cart",
       {},
-      {headers}
+      { headers }
     )
     alert(response.data.message)
   }
@@ -75,14 +75,14 @@ const ViewBookDetails = () => {
   const deleteBook = async () => {
     const response = await axios.delete(
       "http://localhost:3000/api/v1/delete-book",
-      {headers}
+      { headers }
     )
-    
+
     console.log(response.data.message);
     alert(response.data.message);
 
 
-    
+
     navigate("/all-books")
   }
 
@@ -111,7 +111,7 @@ const ViewBookDetails = () => {
         {/* admin */}
         {isLoggedIn === true && role === "admin" && (
           <div className="flex md:flex-col gap-4 mt-4">
-            <button className="bg-white hover:bg-gray-200 rounded-full text-2xl p-3 transition duration-200 shadow-md" >
+            <button className="bg-white hover:bg-gray-200 rounded-full text-2xl p-3 transition duration-200 shadow-md" onClick={() => navigate(`/updateBook/${id}`)}>
               <FaEdit className="text-green-500" />
             </button>
             <button className="bg-white hover:bg-gray-200 rounded-full text-2xl p-3 transition duration-200 shadow-md" onClick={deleteBook}>
