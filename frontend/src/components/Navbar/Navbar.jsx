@@ -7,10 +7,10 @@ export const Navbar = () => {
 
   const baseLinks = [
     { key: 'home', title: "Home", link: "/" },
-    { key: 'all', title: "All Books", link: "/all-books" },
+    { key: 'all', title: "Browse Books", link: "/all-books" },
     { key: 'cart', title: "Cart", link: "/cart" },
     { key: 'profile', title: "Profile", link: "/profile" },
-    { key: 'admin', title: "Admin Profile", link: "/profile" },
+    { key: 'admin', title: "Admin", link: "/profile" },
   ]; 
 
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
@@ -34,14 +34,14 @@ export const Navbar = () => {
   
 
   return (
-    <nav className="bg-amber-100/90 backdrop-blur border-b border-amber-200/80 shadow-sm sticky top-0 z-40">
+    <nav className="bg-white border-b-2 border-emerald-200 shadow-md sticky top-0 z-40">
       <div className="max-w-6xl mx-auto px-4 py-3 flex justify-between items-center">
         {/* Logo */}
         <Link
           to="/"
-          className="text-2xl font-semibold tracking-tight text-amber-900"
+          className="text-2xl font-bold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-emerald-600 to-teal-600"
         >
-          BookHeaven
+          Boighor BD
         </Link>
 
         {/* Desktop Menu */}
@@ -50,7 +50,7 @@ export const Navbar = () => {
             <Link
               key={i}
               to={item.link}
-              className="text-slate-700 hover:text-amber-700 transition-colors duration-200"
+              className="text-slate-700 hover:text-emerald-600 transition-colors duration-200"
             >
               {item.title}
             </Link>
@@ -63,13 +63,13 @@ export const Navbar = () => {
             <div className="hidden md:flex gap-3">
               <Link
                 to="/Login"
-                className="px-4 py-1.5 rounded-full border border-amber-300 text-sm font-medium text-amber-800 hover:bg-amber-100 transition-colors duration-200"
+                className="px-4 py-1.5 rounded-full border-2 border-emerald-500 text-sm font-medium text-emerald-600 hover:bg-emerald-50 transition-colors duration-200"
               >
                 Login
               </Link>
               <Link
                 to="/Signup"
-                className="px-4 py-1.5 rounded-full bg-amber-500 text-amber-950 text-sm font-semibold hover:bg-amber-400 transition-colors duration-200"
+                className="px-4 py-1.5 rounded-full bg-emerald-600 text-white text-sm font-semibold hover:bg-emerald-700 transition-colors duration-200 shadow-sm"
               >
                 Signup
               </Link>
@@ -80,7 +80,7 @@ export const Navbar = () => {
         {/* Mobile Menu Toggle */}
         <button
           onClick={() => setMenuOpen(!menuOpen)}
-          className="md:hidden text-2xl focus:outline-none text-amber-900"
+          className="md:hidden text-2xl focus:outline-none text-slate-700"
         >
           {menuOpen ? "✕" : "☰"}
         </button>
@@ -92,13 +92,13 @@ export const Navbar = () => {
           menuOpen ? "max-h-96 opacity-100 mt-3" : "max-h-0 opacity-0"
         }`}
       >
-        <div className="max-w-6xl mx-auto px-4 flex flex-col gap-3 border-t border-amber-200 pt-3 pb-4 bg-amber-50/90">
+        <div className="max-w-6xl mx-auto px-4 flex flex-col gap-3 border-t border-emerald-200 pt-3 pb-4 bg-white">
           {links.map((item, i) => (
             <Link
               key={i}
               to={item.link}
               onClick={() => setMenuOpen(false)}
-              className="text-slate-800 hover:text-amber-700 transition-colors duration-200"
+              className="text-slate-700 hover:text-emerald-600 transition-colors duration-200 font-medium"
             >
               {item.title}
             </Link>
@@ -109,14 +109,14 @@ export const Navbar = () => {
               <Link
                 to="/Login"
                 onClick={() => setMenuOpen(false)}
-                className="w-full text-center px-4 py-2 rounded-full border border-amber-300 text-sm font-medium text-amber-800 hover:bg-amber-100 transition-colors duration-200"
+                className="w-full text-center px-4 py-2 rounded-full border-2 border-emerald-500 text-sm font-medium text-emerald-600 hover:bg-emerald-50 transition-colors duration-200"
               >
                 Login
               </Link>
               <Link
                 to="/Signup"
                 onClick={() => setMenuOpen(false)}
-                className="w-full text-center px-4 py-2 rounded-full bg-amber-500 text-amber-950 text-sm font-semibold hover:bg-amber-400 transition-colors duration-200"
+                className="w-full text-center px-4 py-2 rounded-full bg-emerald-600 text-white text-sm font-semibold hover:bg-emerald-700 transition-colors duration-200 shadow-sm"
               >
                 Signup
               </Link>

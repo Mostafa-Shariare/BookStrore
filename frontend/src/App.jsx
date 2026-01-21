@@ -59,10 +59,8 @@ function App() {
             element={role === "user" ? <UserOrderHistro /> : <AllOrders />}
           />
 
-          {/* Admin-only add book */}
-          {role === "admin" && (
-            <Route path='add-book' element={<AddBook />} />
-          )}
+          {/* Add book - available to all logged-in users */}
+          <Route path='add-book' element={<AddBook />} />
 
           {/* Shared settings route */}
           <Route path='settings' element={<Settings />} />

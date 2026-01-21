@@ -3,48 +3,42 @@ import { FaFacebook, FaInstagram, FaTwitter, FaGithub } from "react-icons/fa"
 
 export const Footer = () => {
   return (
-    <footer className="bg-amber-100 text-slate-800 pt-10 pb-6 px-6 mt-12 border-t border-amber-200/80">
+    <footer className="bg-white border-t-2 border-emerald-200 pt-10 pb-6 px-6 mt-12 shadow-sm">
       <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-10">
         
         {/* ----- 1. Brand Section ----- */}
         <div>
-          <h2 className="text-2xl font-semibold mb-3 text-amber-900">
-            BookHeaven
+          <h2 className="text-2xl font-bold mb-3 bg-clip-text text-transparent bg-gradient-to-r from-emerald-600 to-teal-600">
+            Boighor BD
           </h2>
           <p className="text-slate-600 text-sm leading-relaxed">
-            Your one-stop destination for discovering, reading, and buying your
-            favorite books. Curated collections, seamless experience.
+            Empowering students through sustainable education. Buy, sell, or donate used textbooks and reduce educational costs while promoting community support.
           </p>
         </div>
 
         {/* ----- 2. Quick Links ----- */}
         <div>
-          <h3 className="text-xl font-semibold mb-3 text-slate-900">
+          <h3 className="text-xl font-semibold mb-3 text-slate-800">
             Quick Links
           </h3>
           <ul className="space-y-2 text-slate-600 text-sm">
             <li>
-              <a href="/" className="hover:text-amber-700 transition-colors duration-200">
+              <a href="/" className="hover:text-emerald-600 transition-colors duration-200">
                 Home
               </a>
             </li>
             <li>
-              <a href="/about-us" className="hover:text-amber-700 transition-colors duration-200">
-                About Us
+              <a href="/all-books" className="hover:text-emerald-600 transition-colors duration-200">
+                Browse Books
               </a>
             </li>
             <li>
-              <a href="/all-books" className="hover:text-amber-700 transition-colors duration-200">
-                All Books
-              </a>
-            </li>
-            <li>
-              <a href="/cart" className="hover:text-amber-700 transition-colors duration-200">
+              <a href="/cart" className="hover:text-emerald-600 transition-colors duration-200">
                 Cart
               </a>
             </li>
             <li>
-              <a href="/profile" className="hover:text-amber-700 transition-colors duration-200">
+              <a href="/profile" className="hover:text-emerald-600 transition-colors duration-200">
                 Profile
               </a>
             </li>
@@ -53,12 +47,11 @@ export const Footer = () => {
 
         {/* ----- 3. Contact & Social ----- */}
         <div>
-          <h3 className="text-xl font-semibold mb-3 text-slate-900">
+          <h3 className="text-xl font-semibold mb-3 text-slate-800">
             Connect With Us
           </h3>
           <p className="text-slate-600 mb-4 text-sm">
-            Follow us on social media for the latest updates, offers, and book
-            recommendations.
+            Join our community and stay updated on new listings, donations, and sustainability initiatives.
           </p>
           <div className="flex gap-4 text-xl text-slate-700">
             <a href="#" className="hover:text-blue-500 transition-colors duration-200">
@@ -79,8 +72,8 @@ export const Footer = () => {
       </div>
 
       {/* ----- Bottom Copyright Bar ----- */}
-      <div className="border-t border-amber-200 mt-8 pt-4 text-center text-slate-500 text-xs">
-        © {new Date().getFullYear()} BookHeaven. All rights reserved.
+      <div className="border-t border-emerald-200 mt-8 pt-4 text-center text-slate-500 text-xs">
+        © {new Date().getFullYear()} Boighor BD. Building a sustainable educational community. Our goal is impact, not profit.
       </div>
     </footer>
   )

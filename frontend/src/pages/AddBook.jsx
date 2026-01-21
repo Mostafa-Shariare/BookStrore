@@ -14,7 +14,12 @@ const AddBook = () => {
     author: '',
     price: '',
     desc: '',
-    language: ''
+    language: '',
+    type: 'Sell', // Sell or Donate
+    condition: 'Good',
+    class: '',
+    subject: '',
+    board: ''
   })
   
   const [loading, setLoading] = useState(false)
@@ -25,18 +30,23 @@ const AddBook = () => {
     authorization: `Bearer ${localStorage.getItem("token")}`,
   }
 
-  // Redirect if not admin
+  // Redirect if not logged in (but allow all logged-in users, not just admin)
   React.useEffect(() => {
-    if (!isLoggedIn || role !== 'admin') {
-      navigate('/')
+    if (!isLoggedIn) {
+      navigate('/Login')
     }
-  }, [isLoggedIn, role, navigate])
+  }, [isLoggedIn, navigate])
 
   const handleChange = (e) => {
     const { name, value } = e.target
     setFormData({ ...formData, [name]: value })
     // Clear message when user starts typing
     if (message.text) setMessage({ text: '', type: '' })
+    
+    // If type changes to Donate, set price to 0
+    if (name === 'type' && value === 'Donate') {
+      setFormData(prev => ({ ...prev, type: 'Donate', price: '0' }))
+    }
   }
 
   const validateForm = () => {
@@ -52,8 +62,8 @@ const AddBook = () => {
       setMessage({ text: 'Please enter the author name.', type: 'error' })
       return false
     }
-    if (!formData.price || formData.price <= 0) {
-      setMessage({ text: 'Please enter a valid price.', type: 'error' })
+    if (formData.type === 'Sell' && (!formData.price || parseFloat(formData.price) <= 0)) {
+      setMessage({ text: 'Please enter a valid price for selling.', type: 'error' })
       return false
     }
     if (!formData.desc.trim()) {
@@ -74,17 +84,23 @@ const AddBook = () => {
 
     try {
       setLoading(true)
+      const submitData = {
+        ...formData,
+        price: formData.type === 'Donate' ? 0 : parseFloat(formData.price),
+        // Only include optional fields if they have values
+        class: formData.class.trim() || undefined,
+        subject: formData.subject.trim() || undefined,
+        board: formData.board.trim() || undefined,
+      }
+      
       const response = await axios.post(
         "http://localhost:3000/api/v1/add-book",
-        {
-          ...formData,
-          price: parseFloat(formData.price)
-        },
+        submitData,
         { headers }
       )
       
       setMessage({ 
-        text: response.data.message || 'Book added successfully!', 
+        text: response.data.message || 'Book listed successfully!', 
         type: 'success' 
       })
       
@@ -95,13 +111,23 @@ const AddBook = () => {
         author: '',
         price: '',
         desc: '',
-        language: ''
+        language: '',
+        type: 'Sell',
+        condition: 'Good',
+        class: '',
+        subject: '',
+        board: ''
       })
+      
+      // Redirect to all books after 2 seconds
+      setTimeout(() => {
+        navigate('/all-books')
+      }, 2000)
       
     } catch (error) {
       console.error('Error adding book:', error)
       setMessage({ 
-        text: error.response?.data?.message || 'Failed to add book. Please try again.', 
+        text: error.response?.data?.message || 'Failed to list book. Please try again.', 
         type: 'error' 
       })
     } finally {
@@ -109,30 +135,41 @@ const AddBook = () => {
     }
   }
 
-  if (!isLoggedIn || role !== 'admin') {
+  if (!isLoggedIn) {
     return null
   }
 
+  const isAdmin = role === 'admin'
+
   return (
-    <div style={styles.container}>
-      <div style={styles.card}>
-        <h1 style={styles.title}>Add New Book</h1>
+    <div className="min-h-screen bg-gradient-to-br from-emerald-50 via-teal-50 to-cyan-50 px-4 py-10">
+      <div className="max-w-4xl mx-auto bg-white rounded-2xl shadow-lg border-2 border-emerald-100 p-8">
+        <div className="mb-6">
+          <h1 className="text-3xl font-bold text-emerald-700 text-center mb-2">
+            List Your Book
+          </h1>
+          <p className="text-center text-slate-600 text-sm">
+            {isAdmin 
+              ? 'Add a book to the platform (auto-approved)' 
+              : 'Your book will be reviewed by admin before going live'}
+          </p>
+        </div>
         
         {message.text && (
-          <div style={{
-            ...styles.message,
-            backgroundColor: message.type === 'success' ? '#f0fdf4' : '#fef2f2', // zinc-50/green-50 : zinc-50/red-50
-            color: message.type === 'success' ? '#166534' : '#991b1b', // zinc-800/green-800 : zinc-800/red-800
-            borderColor: message.type === 'success' ? '#bbf7d0' : '#fecaca' // zinc-200/green-200 : zinc-200/red-200
-          }}>
+          <div className={`mb-6 p-4 rounded-lg border-2 ${
+            message.type === 'success' 
+              ? 'bg-emerald-50 border-emerald-200 text-emerald-700' 
+              : 'bg-red-50 border-red-200 text-red-700'
+          }`}>
             {message.text}
           </div>
         )}
 
-        <form onSubmit={handleSubmit} style={styles.form}>
-          <div style={styles.formGrid}>
-            <div style={styles.fieldGroup}>
-              <label style={styles.label} htmlFor="url">
+        <form onSubmit={handleSubmit} className="space-y-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {/* Image URL */}
+            <div className="md:col-span-2">
+              <label htmlFor="url" className="block text-sm font-semibold text-slate-700 mb-2">
                 Book Image URL *
               </label>
               <input
@@ -142,14 +179,15 @@ const AddBook = () => {
                 value={formData.url}
                 onChange={handleChange}
                 placeholder="https://example.com/book-image.jpg"
-                style={styles.input}
+                className="w-full px-4 py-2 border-2 border-emerald-200 rounded-lg focus:outline-none focus:border-emerald-500 text-slate-700"
                 disabled={loading}
                 required
               />
             </div>
 
-            <div style={styles.fieldGroup}>
-              <label style={styles.label} htmlFor="title">
+            {/* Title */}
+            <div className="md:col-span-2">
+              <label htmlFor="title" className="block text-sm font-semibold text-slate-700 mb-2">
                 Book Title *
               </label>
               <input
@@ -159,14 +197,15 @@ const AddBook = () => {
                 value={formData.title}
                 onChange={handleChange}
                 placeholder="Enter book title"
-                style={styles.input}
+                className="w-full px-4 py-2 border-2 border-emerald-200 rounded-lg focus:outline-none focus:border-emerald-500 text-slate-700"
                 disabled={loading}
                 required
               />
             </div>
 
-            <div style={styles.fieldGroup}>
-              <label style={styles.label} htmlFor="author">
+            {/* Author */}
+            <div>
+              <label htmlFor="author" className="block text-sm font-semibold text-slate-700 mb-2">
                 Author *
               </label>
               <input
@@ -176,33 +215,15 @@ const AddBook = () => {
                 value={formData.author}
                 onChange={handleChange}
                 placeholder="Enter author name"
-                style={styles.input}
+                className="w-full px-4 py-2 border-2 border-emerald-200 rounded-lg focus:outline-none focus:border-emerald-500 text-slate-700"
                 disabled={loading}
                 required
               />
             </div>
 
-            <div style={styles.fieldGroup}>
-              <label style={styles.label} htmlFor="price">
-                Price ($) *
-              </label>
-              <input
-                type="number"
-                id="price"
-                name="price"
-                value={formData.price}
-                onChange={handleChange}
-                placeholder="0.00"
-                min="0"
-                step="0.01"
-                style={styles.input}
-                disabled={loading}
-                required
-              />
-            </div>
-
-            <div style={styles.fieldGroup}>
-              <label style={styles.label} htmlFor="language">
+            {/* Language */}
+            <div>
+              <label htmlFor="language" className="block text-sm font-semibold text-slate-700 mb-2">
                 Language *
               </label>
               <input
@@ -211,15 +232,130 @@ const AddBook = () => {
                 name="language"
                 value={formData.language}
                 onChange={handleChange}
-                placeholder="e.g., English, Spanish, French"
-                style={styles.input}
+                placeholder="e.g., Bengali, English"
+                className="w-full px-4 py-2 border-2 border-emerald-200 rounded-lg focus:outline-none focus:border-emerald-500 text-slate-700"
                 disabled={loading}
                 required
               />
             </div>
 
-            <div style={styles.fieldGroupFull}>
-              <label style={styles.label} htmlFor="desc">
+            {/* Type */}
+            <div>
+              <label htmlFor="type" className="block text-sm font-semibold text-slate-700 mb-2">
+                Listing Type *
+              </label>
+              <select
+                id="type"
+                name="type"
+                value={formData.type}
+                onChange={handleChange}
+                className="w-full px-4 py-2 border-2 border-emerald-200 rounded-lg focus:outline-none focus:border-emerald-500 text-slate-700"
+                disabled={loading}
+                required
+              >
+                <option value="Sell">💰 Sell</option>
+                <option value="Donate">🎁 Donate (FREE)</option>
+              </select>
+            </div>
+
+            {/* Price (only if selling) */}
+            {formData.type === 'Sell' && (
+              <div>
+                <label htmlFor="price" className="block text-sm font-semibold text-slate-700 mb-2">
+                  Price (৳) *
+                </label>
+                <input
+                  type="number"
+                  id="price"
+                  name="price"
+                  value={formData.price}
+                  onChange={handleChange}
+                  placeholder="0"
+                  min="0"
+                  step="1"
+                  className="w-full px-4 py-2 border-2 border-emerald-200 rounded-lg focus:outline-none focus:border-emerald-500 text-slate-700"
+                  disabled={loading || formData.type === 'Donate'}
+                  required={formData.type === 'Sell'}
+                />
+              </div>
+            )}
+
+            {/* Condition */}
+            <div>
+              <label htmlFor="condition" className="block text-sm font-semibold text-slate-700 mb-2">
+                Condition *
+              </label>
+              <select
+                id="condition"
+                name="condition"
+                value={formData.condition}
+                onChange={handleChange}
+                className="w-full px-4 py-2 border-2 border-emerald-200 rounded-lg focus:outline-none focus:border-emerald-500 text-slate-700"
+                disabled={loading}
+                required
+              >
+                <option value="New">New</option>
+                <option value="Like New">Like New</option>
+                <option value="Good">Good</option>
+                <option value="Fair">Fair</option>
+                <option value="Poor">Poor</option>
+              </select>
+            </div>
+
+            {/* Class */}
+            <div>
+              <label htmlFor="class" className="block text-sm font-semibold text-slate-700 mb-2">
+                Class (Optional)
+              </label>
+              <input
+                type="text"
+                id="class"
+                name="class"
+                value={formData.class}
+                onChange={handleChange}
+                placeholder="e.g., Class 10, HSC, SSC"
+                className="w-full px-4 py-2 border-2 border-emerald-200 rounded-lg focus:outline-none focus:border-emerald-500 text-slate-700"
+                disabled={loading}
+              />
+            </div>
+
+            {/* Subject */}
+            <div>
+              <label htmlFor="subject" className="block text-sm font-semibold text-slate-700 mb-2">
+                Subject (Optional)
+              </label>
+              <input
+                type="text"
+                id="subject"
+                name="subject"
+                value={formData.subject}
+                onChange={handleChange}
+                placeholder="e.g., Mathematics, Physics"
+                className="w-full px-4 py-2 border-2 border-emerald-200 rounded-lg focus:outline-none focus:border-emerald-500 text-slate-700"
+                disabled={loading}
+              />
+            </div>
+
+            {/* Board */}
+            <div>
+              <label htmlFor="board" className="block text-sm font-semibold text-slate-700 mb-2">
+                Board (Optional)
+              </label>
+              <input
+                type="text"
+                id="board"
+                name="board"
+                value={formData.board}
+                onChange={handleChange}
+                placeholder="e.g., Dhaka, Chittagong, National"
+                className="w-full px-4 py-2 border-2 border-emerald-200 rounded-lg focus:outline-none focus:border-emerald-500 text-slate-700"
+                disabled={loading}
+              />
+            </div>
+
+            {/* Description */}
+            <div className="md:col-span-2">
+              <label htmlFor="desc" className="block text-sm font-semibold text-slate-700 mb-2">
                 Description *
               </label>
               <textarea
@@ -229,30 +365,30 @@ const AddBook = () => {
                 onChange={handleChange}
                 placeholder="Enter book description..."
                 rows="4"
-                style={styles.textarea}
+                className="w-full px-4 py-2 border-2 border-emerald-200 rounded-lg focus:outline-none focus:border-emerald-500 text-slate-700 resize-vertical"
                 disabled={loading}
                 required
               />
             </div>
           </div>
 
-          <div style={styles.buttonContainer}>
+          <div className="flex justify-center pt-4">
             <button 
               type="submit"
               disabled={loading}
-              style={{
-                ...styles.button,
-                opacity: loading ? 0.6 : 1,
-                cursor: loading ? 'not-allowed' : 'pointer'
-              }}
+              className={`px-8 py-3 rounded-lg font-semibold text-white transition-all duration-200 flex items-center gap-2 ${
+                loading 
+                  ? 'bg-slate-400 cursor-not-allowed' 
+                  : 'bg-emerald-600 hover:bg-emerald-700 shadow-lg hover:shadow-xl'
+              }`}
             >
               {loading ? (
                 <>
-                  <div style={styles.buttonSpinner}></div>
-                  Adding Book...
+                  <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                  Listing Book...
                 </>
               ) : (
-                'Add Book'
+                'List Book'
               )}
             </button>
           </div>
@@ -261,168 +397,5 @@ const AddBook = () => {
     </div>
   )
 }
-
-// Styles object
-const styles = {
-  container: {
-    minHeight: '100vh',
-    backgroundColor: '#fafafa', // zinc-50
-    padding: '20px',
-    fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif'
-  },
-  card: {
-    maxWidth: '800px',
-    margin: '0 auto',
-    backgroundColor: '#ffffff', // zinc-0
-    borderRadius: '12px',
-    boxShadow: '0 4px 6px rgba(0, 0, 0, 0.05), 0 1px 3px rgba(0, 0, 0, 0.1)',
-    padding: '32px',
-    border: '1px solid #e4e4e7' // zinc-200
-  },
-  title: {
-    fontSize: '28px',
-    fontWeight: '600',
-    color: '#18181b', // zinc-900
-    marginBottom: '24px',
-    textAlign: 'center',
-    borderBottom: '2px solid #71717a', // zinc-500
-    paddingBottom: '12px'
-  },
-  form: {
-    display: 'flex',
-    flexDirection: 'column',
-    gap: '24px'
-  },
-  formGrid: {
-    display: 'grid',
-    gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
-    gap: '20px'
-  },
-  fieldGroup: {
-    display: 'flex',
-    flexDirection: 'column',
-    gap: '8px'
-  },
-  fieldGroupFull: {
-    display: 'flex',
-    flexDirection: 'column',
-    gap: '8px',
-    gridColumn: '1 / -1'
-  },
-  label: {
-    fontSize: '14px',
-    fontWeight: '600',
-    color: '#3f3f46', // zinc-700
-    marginBottom: '4px'
-  },
-  input: {
-    padding: '12px 16px',
-    border: '2px solid #e4e4e7', // zinc-200
-    borderRadius: '8px',
-    fontSize: '16px',
-    fontFamily: 'inherit',
-    transition: 'border-color 0.2s ease-in-out',
-    outline: 'none',
-    backgroundColor: '#ffffff', // zinc-0
-    color: '#18181b', // zinc-900
-    ':focus': {
-      borderColor: '#71717a' // zinc-500
-    },
-    ':disabled': {
-      backgroundColor: '#f4f4f5', // zinc-100
-      cursor: 'not-allowed'
-    }
-  },
-  textarea: {
-    padding: '12px 16px',
-    border: '2px solid #e4e4e7', // zinc-200
-    borderRadius: '8px',
-    fontSize: '16px',
-    fontFamily: 'inherit',
-    resize: 'vertical',
-    minHeight: '100px',
-    transition: 'border-color 0.2s ease-in-out',
-    outline: 'none',
-    backgroundColor: '#ffffff', // zinc-0
-    color: '#18181b', // zinc-900
-    ':focus': {
-      borderColor: '#71717a' // zinc-500
-    },
-    ':disabled': {
-      backgroundColor: '#f4f4f5', // zinc-100
-      cursor: 'not-allowed'
-    }
-  },
-  buttonContainer: {
-    display: 'flex',
-    justifyContent: 'center',
-    marginTop: '16px'
-  },
-  button: {
-    backgroundColor: '#71717a', // zinc-500
-    color: '#ffffff', // zinc-0
-    border: 'none',
-    borderRadius: '8px',
-    padding: '12px 32px',
-    fontSize: '16px',
-    fontWeight: '600',
-    cursor: 'pointer',
-    transition: 'all 0.2s ease-in-out',
-    display: 'flex',
-    alignItems: 'center',
-    gap: '8px',
-    minWidth: '160px',
-    justifyContent: 'center',
-    ':hover': {
-      backgroundColor: '#52525b', // zinc-600
-      transform: 'translateY(-1px)',
-      boxShadow: '0 4px 8px rgba(113, 113, 122, 0.3)'
-    },
-    ':active': {
-      transform: 'translateY(0)'
-    }
-  },
-  buttonSpinner: {
-    width: '16px',
-    height: '16px',
-    border: '2px solid transparent',
-    borderTop: '2px solid white',
-    borderRadius: '50%',
-    animation: 'spin 1s linear infinite'
-  },
-  message: {
-    padding: '12px 16px',
-    borderRadius: '8px',
-    marginBottom: '20px',
-    border: '1px solid',
-    fontSize: '14px',
-    fontWeight: '500'
-  }
-}
-
-// Add CSS animation for spinner
-const styleSheet = document.createElement('style')
-styleSheet.textContent = `
-  @keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-  }
-  
-  input:focus, textarea:focus {
-    border-color: #71717a !important;
-    box-shadow: 0 0 0 3px rgba(113, 113, 122, 0.1);
-  }
-  
-  button:hover:not(:disabled) {
-    background-color: #52525b !important;
-    transform: translateY(-1px);
-    box-shadow: 0 4px 8px rgba(113, 113, 122, 0.3);
-  }
-  
-  button:active:not(:disabled) {
-    transform: translateY(0) !important;
-  }
-`
-document.head.appendChild(styleSheet)
 
 export default AddBook

@@ -1,45 +1,62 @@
 import React from "react";
-import "../../index.css"; // (optional if you put animations in global CSS)
+import "../../index.css";
 
 export const Hero = () => {
   return (
-    <section className="relative h-[80vh] flex items-center justify-center text-white overflow-hidden">
-      {/* Background Image */}
-      <img
-        src="https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?auto=format&fit=crop&w=1920&q=80"
-        alt="Books background"
-        className="absolute inset-0 w-full h-full object-cover"
-      />
-
-      {/* Overlay */}
-      <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-black/60 to-black/80"></div>
+    <section className="relative h-[85vh] flex items-center justify-center overflow-hidden bg-gradient-to-br from-emerald-100 via-teal-50 to-cyan-100">
+      {/* Decorative Elements */}
+      <div className="absolute inset-0 opacity-10">
+        <div className="absolute top-20 left-10 w-32 h-32 bg-emerald-300 rounded-full blur-3xl"></div>
+        <div className="absolute bottom-20 right-10 w-40 h-40 bg-teal-300 rounded-full blur-3xl"></div>
+      </div>
 
       {/* Content */}
-      <div className="relative z-10 flex flex-col lg:flex-row items-center justify-center w-full px-6 lg:px-20">
+      <div className="relative z-10 flex flex-col lg:flex-row items-center justify-center w-full px-6 lg:px-20 max-w-6xl mx-auto">
         
         {/* Left Content */}
         <div className="animate-fadeInUp w-full lg:w-1/2 flex flex-col items-center lg:items-start text-center lg:text-left space-y-6">
-          <h1 className="text-4xl lg:text-6xl font-extrabold text-yellow-100 leading-tight tracking-wide drop-shadow-[0_8px_30px_rgba(0,0,0,0.7)]">
-            Discover Your Next <br className="hidden lg:block" /> Great Read
+          <div className="inline-block px-4 py-1.5 rounded-full bg-emerald-100 border border-emerald-300 text-emerald-700 text-sm font-semibold mb-2">
+            🌱 Sustainable Education
+          </div>
+          
+          <h1 className="text-4xl lg:text-6xl font-extrabold text-slate-800 leading-tight tracking-wide">
+            Buy, Sell, or <br className="hidden lg:block" /> 
+            <span className="bg-clip-text text-transparent bg-gradient-to-r from-emerald-600 to-teal-600">
+              Donate Books
+            </span>
           </h1>
 
-          <p className="text-lg lg:text-xl text-zinc-200/90 max-w-xl">
-            Uncover captivating stories, enrich your knowledge, and spark endless
-            inspiration through our handpicked collection of books.
+          <p className="text-lg lg:text-xl text-slate-600 max-w-xl leading-relaxed">
+            Empowering students in Bangladesh through affordable textbooks. Filter by class, subject, and board. Reduce costs, promote sustainability, and build community.
           </p>
 
-          <button className="mt-4 text-zinc-950 text-lg lg:text-xl font-semibold bg-amber-300/90 px-8 py-3 rounded-full hover:bg-amber-200 transition-all duration-300 shadow-lg shadow-amber-300/40 hover:shadow-[0_0_25px_rgba(253,224,71,0.7)]">
-            Discover Books
-          </button>
+          <div className="flex flex-col sm:flex-row gap-4 mt-4">
+            <button className="text-white text-lg font-semibold bg-emerald-600 px-8 py-3 rounded-full hover:bg-emerald-700 transition-all duration-300 shadow-lg shadow-emerald-300/50 hover:shadow-xl">
+              Browse Books
+            </button>
+            <button className="text-emerald-700 text-lg font-semibold border-2 border-emerald-600 px-8 py-3 rounded-full hover:bg-emerald-50 transition-all duration-300">
+              List Your Book
+            </button>
+          </div>
+
+          <p className="text-sm text-slate-500 mt-4">
+            💡 <strong>Our Mission:</strong> Impact over profit. Making education accessible for all.
+          </p>
         </div>
 
-        {/* Right Image */}
+        {/* Right Image/Illustration */}
         <div className="w-full lg:w-1/2 flex justify-center mt-10 lg:mt-0">
-          <img
-            src="https://images.unsplash.com/photo-1512820790803-83ca734da794?auto=format&fit=crop&w=600&q=80"
-            alt="Open book"
-            className="w-[80%] lg:w-[90%] max-w-[500px] drop-shadow-[0_0_30px_rgba(0,0,0,0.8)] hover:scale-105 transition-transform duration-500 rounded-lg animate-float-soft"
-          />
+          <div className="relative">
+            <img
+              src="https://images.unsplash.com/photo-1503676260728-1c00da094a0b?auto=format&fit=crop&w=800&q=80"
+              alt="Students with books"
+              className="w-[90%] max-w-[500px] rounded-2xl shadow-2xl border-4 border-white animate-float-soft"
+            />
+            <div className="absolute -bottom-6 -left-6 bg-white rounded-xl p-4 shadow-lg border-2 border-emerald-200">
+              <p className="text-sm font-semibold text-emerald-700">📚 1000+ Books</p>
+              <p className="text-xs text-slate-600">Available now</p>
+            </div>
+          </div>
         </div>
       </div>
     </section>

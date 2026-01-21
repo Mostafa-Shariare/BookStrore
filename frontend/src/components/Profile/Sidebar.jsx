@@ -12,23 +12,23 @@ const Sidebar = ({ data }) => {
   const history = useNavigate()
 
   return (
-    <div className='bg-zinc-800 rounded-2xl p-6 flex flex-col items-center h-full shadow-lg shadow-zinc-950/40'>
+    <div className='bg-white border-2 border-emerald-200 rounded-2xl p-6 flex flex-col items-center h-full shadow-lg shadow-emerald-200/20'>
       {/* Profile Info */}
       <div className='flex flex-col items-center'>
-        <div className='w-24 h-24 rounded-full overflow-hidden border-2 border-zinc-600 shadow-md'>
+        <div className='w-24 h-24 rounded-full overflow-hidden border-2 border-emerald-300 shadow-md'>
           <img 
             src={data.avater} 
             alt="User Avatar" 
             className='w-full h-full object-cover'
           />
         </div>
-        <p className='mt-3 text-xl font-semibold text-zinc-100'>
+        <p className='mt-3 text-xl font-semibold text-slate-800'>
           {data.username}
         </p>
-        <p className='mt-1 text-sm text-zinc-400'>
+        <p className='mt-1 text-sm text-slate-600'>
           {data.email}
         </p>
-        <div className='w-full mt-5 h-[1px] bg-zinc-700'></div>
+        <div className='w-full mt-5 h-[1px] bg-emerald-200'></div>
       </div>
 
       {/* Navigation Links */}
@@ -36,21 +36,28 @@ const Sidebar = ({ data }) => {
           <div className='w-full flex flex-col mt-6 space-y-3'>
         <Link
           to="/profile"
-          className="text-zinc-100 font-medium w-full py-2 text-center hover:bg-zinc-900 rounded-lg transition-all duration-300"
+          className="text-slate-700 font-medium w-full py-2 text-center hover:bg-emerald-50 rounded-lg transition-all duration-300 border border-transparent hover:border-emerald-200"
         >
           Favourites
         </Link>
 
         <Link
           to="/profile/orderHistory"
-          className="text-zinc-100 font-medium w-full py-2 text-center hover:bg-zinc-900 rounded-lg transition-all duration-300"
+          className="text-slate-700 font-medium w-full py-2 text-center hover:bg-emerald-50 rounded-lg transition-all duration-300 border border-transparent hover:border-emerald-200"
         >
           Order History
         </Link>
 
         <Link
+          to="/profile/add-book"
+          className="text-slate-700 font-medium w-full py-2 text-center hover:bg-emerald-50 rounded-lg transition-all duration-300 border border-transparent hover:border-emerald-200"
+        >
+          List My Book
+        </Link>
+
+        <Link
           to="/profile/settings"
-          className="text-zinc-100 font-medium w-full py-2 text-center hover:bg-zinc-900 rounded-lg transition-all duration-300"
+          className="text-slate-700 font-medium w-full py-2 text-center hover:bg-emerald-50 rounded-lg transition-all duration-300 border border-transparent hover:border-emerald-200"
         >
           Settings
         </Link>
@@ -61,14 +68,14 @@ const Sidebar = ({ data }) => {
           <div className='w-full flex flex-col mt-6 space-y-3'>
         <Link
           to="/profile"
-          className="text-zinc-100 font-medium w-full py-2 text-center hover:bg-zinc-900 rounded-lg transition-all duration-300"
+          className="text-slate-700 font-medium w-full py-2 text-center hover:bg-emerald-50 rounded-lg transition-all duration-300 border border-transparent hover:border-emerald-200"
         >
           All Orders
         </Link>
 
         <Link
           to="/profile/add-book"
-          className="text-zinc-100 font-medium w-full py-2 text-center hover:bg-zinc-900 rounded-lg transition-all duration-300"
+          className="text-slate-700 font-medium w-full py-2 text-center hover:bg-emerald-50 rounded-lg transition-all duration-300 border border-transparent hover:border-emerald-200"
         >
           Add Book
         </Link>
@@ -78,7 +85,7 @@ const Sidebar = ({ data }) => {
       )}
 
       {/* Logout Button */}
-      <button className='mt-auto bg-zinc-900 w-full py-2.5 rounded-lg text-white font-semibold flex items-center justify-center gap-2 hover:bg-zinc-950 transition-all duration-300'
+      <button className='mt-auto bg-red-500 w-full py-2.5 rounded-lg text-white font-semibold flex items-center justify-center gap-2 hover:bg-red-600 transition-all duration-300 shadow-sm'
       onClick={() => {
         dispatch(authActions.logout());
         dispatch(authActions.changeRole("user"))

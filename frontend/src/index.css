@@ -1,8 +1,8 @@
 @import "tailwindcss";
 
-/* Global base styles - light, warm palette for bookstore feel */
+/* Global base styles - Educational & Sustainability theme for Boighor BD */
 body {
-  @apply bg-amber-50 text-slate-900 antialiased;
+  @apply bg-gradient-to-br from-emerald-50 via-teal-50 to-cyan-50 text-slate-800 antialiased;
   font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
     sans-serif;
 }
