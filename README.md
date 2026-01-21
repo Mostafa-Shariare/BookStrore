@@ -1,134 +1,185 @@
-# MERN Stack Bookstore Project
+# 📚 Boighor BD – 2nd-Hand Book Platform for Students
 
-A full-stack Bookstore application built with the MERN stack (MongoDB, Express.js, React, Node.js). This application enables users to browse books, manage their profile, add books to favorites, and place orders. Administrators have extended capabilities to manage the book inventory.
+Boighor BD is a **full-stack MERN application** that helps Bangladeshi students **buy, sell, or donate second-hand books at affordable prices**. The platform focuses on reducing educational costs, encouraging reuse, and supporting students from low-income backgrounds.
+
+---
 
 ## 🚀 Features
 
-### User Features
-- **Authentication**: Secure Signup and Login functionality using JWT and Bcrypt.
-- **Browse Books**: View a list of all available books and recently added ones.
-- **Book Details**: View detailed information about each book.
-- **Favorites**: Add interesting books to a personal favorites list.
-- **Cart & Ordering**: Add books to the cart and place orders.
-- **Order History**: View past orders and their status.
-- **Profile Management**: Customizable user profiles.
-- **Responsive Design**: Optimized for desktop and mobile devices.
-- **Donate & Sell**: Filter books by type (Sell or Donate).
+### 👤 User Features
 
-### Admin Features
-- **Dashboard**: Access to admin-specific controls.
-- **Add Books**: Create new book entries with details like image, title, author, price, and description.
-- **Edit Books**: Update existing book details.
-- **Delete Books**: Remove books from the inventory.
-- **Manage Orders**: View and update the status of user orders.
+* **Authentication**: Secure signup and login using JWT & Bcrypt
+* **Browse Books**: View all available books (Sell & Donate)
+* **Book Details**: See book condition, price, category, and description
+* **Sell Books**: List used books with images and pricing
+* **Donate Books**: Mark books as free for donation
+* **Search & Filter**: Filter by category, type (Sell / Donate), and availability
+* **Cart & Orders**: Add books to cart and place orders
+* **Order History**: Track previous purchases
+* **Profile Management**: Manage user information
+* **Responsive Design**: Works smoothly on mobile and desktop
+
+---
+
+### 🛠️ Admin Features
+
+* **Admin Dashboard**
+* **Manage Books**: Add, edit, or delete book listings
+* **Moderation**: Approve or remove inappropriate listings
+* **Manage Orders**: View and update order status
+
+---
+
+## 🌍 Purpose & Impact
+
+* Makes textbooks affordable for underprivileged students
+* Encourages book reuse and sustainability
+* Builds a student-driven sharing economy
+* Supports both selling and donating books
+
+---
 
 ## 🛠️ Tech Stack
 
 ### Frontend
-- **React**: UI library for building the user interface.
-- **Vite**: Next Generation Frontend Tooling.
-- **Tailwind CSS**: Utility-first CSS framework for styling.
-- **Redux Toolkit**: State management for authentication and global application state.
-- **React Router DOM**: Client-side routing.
-- **Axios**: HTTP client for API requests.
-- **React Icons**: Icon library.
+
+* **React**
+* **Vite**
+* **Tailwind CSS**
+* **Redux Toolkit**
+* **React Router DOM**
+* **Axios**
+* **React Icons**
 
 ### Backend
-- **Node.js**: JavaScript runtime environment.
-- **Express.js**: Web application framework for Node.js.
-- **MongoDB**: NoSQL database for storing application data.
-- **Mongoose**: Object Data Modeling (ODM) library for MongoDB.
-- **JSON Web Token (JWT)**: For secure user authentication.
-- **Bcryptjs**: For password hashing.
-- **Cors**: Cross-Origin Resource Sharing.
+
+* **Node.js**
+* **Express.js**
+* **MongoDB**
+* **Mongoose**
+* **JWT (Authentication)**
+* **Bcryptjs**
+* **CORS**
+
+---
 
 ## 📂 Project Structure
 
 ```
-BookStore/
-├── backend/          # Node.js & Express API
-│   ├── conn/         # Database connection
-│   ├── models/       # Mongoose models
-│   ├── routes/       # API routes
-│   └── seed.js       # Data seeding script
-├── frontend/         # React application
+Boighor-BD/
+├── backend/
+│   ├── conn/          # Database connection
+│   ├── models/        # Mongoose schemas
+│   ├── routes/        # API routes
+│   ├── controllers/   # Business logic
+│   └── seed.js        # Demo data
+├── frontend/
 │   ├── src/
 │   │   ├── components/
 │   │   ├── pages/
-│   │   ├── store/    # Redux store
-│   │   └── ...
+│   │   ├── store/     # Redux store
+│   │   └── utils/
 │   └── ...
-└── ...
+└── README.md
 ```
+
+---
 
 ## ⚡ Getting Started
 
 ### Prerequisites
-- Node.js (v14 or higher)
-- MongoDB (Local instance or Atlas URI)
 
-### Installation
+* Node.js (v14+)
+* MongoDB (Local or Atlas)
 
-1.  **Clone the repository**
-    ```bash
-    git clone <repository-url>
-    cd BookStore
-    ```
+---
 
-2.  **Backend Setup**
-    Navigate to the backend directory and install dependencies:
-    ```bash
-    cd backend
-    npm install
-    ```
-    Create a `.env` file in the `backend` directory and add your variables:
-    ```env
-    PORT=3000
-    URI=<your-mongodb-connection-string> # e.g. mongodb://localhost:27017/bookStore
-    JWT_SECRET=<your-secret-key>
-    ```
-    
-    **(Optional) Seed Database with Demo Data**
-    Run the seed script to populate the database with users and books:
-    ```bash
-    npm run seed
-    ```
+### 🔧 Installation
 
-    Start the backend server:
-    ```bash
-    npm start
-    ```
+#### 1️⃣ Clone the Repository
 
-3.  **Frontend Setup**
-    Navigate to the frontend directory and install dependencies:
-    ```bash
-    cd ../frontend
-    npm install
-    ```
-    Start the development server:
-    ```bash
-    npm run dev
-    ```
+```bash
+git clone <repository-url>
+cd Boighor-BD
+```
 
-4.  **Access the Application**
-    Open your browser and navigate to `http://localhost:5173` (or the port shown in your terminal).
+---
 
-## 🔐 Demo Accounts
+#### 2️⃣ Backend Setup
 
-If you ran `npm run seed`, you can use the following accounts to test the application:
+```bash
+cd backend
+npm install
+```
 
-| Role | Username | Password |
-| :--- | :--- | :--- |
-| **Admin** | `admin` | `password123` |
-| **User** | `rahman` | `password123` |
-| **User** | `fatima` | `password123` |
+Create a `.env` file:
 
-## 🤝 Contributing
+```env
+PORT=3000
+URI=your_mongodb_connection_string
+JWT_SECRET=your_secret_key
+```
 
-Contributions are welcome! Please feel free to submit a Pull Request.
+(Optional) Seed demo data:
+
+```bash
+npm run seed
+```
+
+Start backend:
+
+```bash
+npm start
+```
+
+---
+
+#### 3️⃣ Frontend Setup
+
+```bash
+cd ../frontend
+npm install
+npm run dev
+```
+
+---
+
+#### 4️⃣ Access App
+
+Open browser:
+
+```
+http://localhost:5173
+```
+
+---
+
+## 🔐 Demo Accounts (Seeded)
+
+| Role  | Username | Password    |
+| ----- | -------- | ----------- |
+| Admin | admin    | password123 |
+| User  | rahman   | password123 |
+| User  | fatima   | password123 |
+
+---
+
+## 🧠 Future Improvements
+
+* NGO-verified donation system
+* AI-based fair price suggestions
+* Mobile app support
+* SMS-based access for rural users
+
+---
+
+## 👤 Contribution
+
+This project was **designed, developed, and deployed entirely by a solo developer**, covering ideation, UI/UX, frontend, backend, database design, and deployment.
+
+---
 
 ## 📄 License
 
-This project is licensed under the MIT License.
-
+This project is licensed under the **MIT License**.
 
