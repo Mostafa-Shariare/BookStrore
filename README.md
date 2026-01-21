@@ -173,11 +173,6 @@ http://localhost:5173
 
 ---
 
-## 👤 Contribution
-
-This project was **designed, developed, and deployed entirely by a solo developer**, covering ideation, UI/UX, frontend, backend, database design, and deployment.
-
----
 
 ## 📄 License
 
