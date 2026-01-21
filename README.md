@@ -5,14 +5,15 @@ A full-stack Bookstore application built with the MERN stack (MongoDB, Express.j
 ## 🚀 Features
 
 ### User Features
-- **Authentication**: Secure Signup and Login functionality using JWT.
+- **Authentication**: Secure Signup and Login functionality using JWT and Bcrypt.
 - **Browse Books**: View a list of all available books and recently added ones.
 - **Book Details**: View detailed information about each book.
 - **Favorites**: Add interesting books to a personal favorites list.
 - **Cart & Ordering**: Add books to the cart and place orders.
 - **Order History**: View past orders and their status.
-- **Profile Management**: customizable user profiles.
-- **Responsive Design**: optimized for desktop and mobile devices.
+- **Profile Management**: Customizable user profiles.
+- **Responsive Design**: Optimized for desktop and mobile devices.
+- **Donate & Sell**: Filter books by type (Sell or Donate).
 
 ### Admin Features
 - **Dashboard**: Access to admin-specific controls.
@@ -36,9 +37,10 @@ A full-stack Bookstore application built with the MERN stack (MongoDB, Express.j
 - **Node.js**: JavaScript runtime environment.
 - **Express.js**: Web application framework for Node.js.
 - **MongoDB**: NoSQL database for storing application data.
-- **Mongoose**: Oject Data Modeling (ODM) library for MongoDB.
+- **Mongoose**: Object Data Modeling (ODM) library for MongoDB.
 - **JSON Web Token (JWT)**: For secure user authentication.
-- **Bcrypt**: For password hashing.
+- **Bcryptjs**: For password hashing.
+- **Cors**: Cross-Origin Resource Sharing.
 
 ## 📂 Project Structure
 
@@ -48,7 +50,7 @@ BookStore/
 │   ├── conn/         # Database connection
 │   ├── models/       # Mongoose models
 │   ├── routes/       # API routes
-│   └── ...
+│   └── seed.js       # Data seeding script
 ├── frontend/         # React application
 │   ├── src/
 │   │   ├── components/
@@ -82,9 +84,16 @@ BookStore/
     Create a `.env` file in the `backend` directory and add your variables:
     ```env
     PORT=3000
-    URI=<your-mongodb-connection-string>
+    URI=<your-mongodb-connection-string> # e.g. mongodb://localhost:27017/bookStore
     JWT_SECRET=<your-secret-key>
     ```
+    
+    **(Optional) Seed Database with Demo Data**
+    Run the seed script to populate the database with users and books:
+    ```bash
+    npm run seed
+    ```
+
     Start the backend server:
     ```bash
     npm start
@@ -103,6 +112,16 @@ BookStore/
 
 4.  **Access the Application**
     Open your browser and navigate to `http://localhost:5173` (or the port shown in your terminal).
+
+## 🔐 Demo Accounts
+
+If you ran `npm run seed`, you can use the following accounts to test the application:
+
+| Role | Username | Password |
+| :--- | :--- | :--- |
+| **Admin** | `admin` | `password123` |
+| **User** | `rahman` | `password123` |
+| **User** | `fatima` | `password123` |
 
 ## 🤝 Contributing
 
