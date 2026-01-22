@@ -1,180 +1,150 @@
 # 📚 Boighor BD – 2nd-Hand Book Platform for Students
 
-Boighor BD is a **full-stack MERN application** that helps Bangladeshi students **buy, sell, or donate second-hand books at affordable prices**. The platform focuses on reducing educational costs, encouraging reuse, and supporting students from low-income backgrounds.
+Boighor BD is a **full-stack MERN application** that helps Bangladeshi students **buy, sell, or donate second-hand books at affordable prices**.
+
+## 🚀 Quick Start
+
+If you have **Node.js** and **MongoDB** installed, here is how to get running in 2 minutes:
+
+### 1. Backend
+```bash
+cd backend
+npm install
+npm run seed  # (Optional) Populates DB with demo data
+npm start
+```
+*Server runs on local port 1000 or 3000 (check console).*
+
+### 2. Frontend
+```bash
+cd frontend
+npm install
+npm run dev
+```
+*Open the link shown (usually http://localhost:5173).*
 
 ---
 
-## 🚀 Features
+## 🛠️ Detailed Setup Guide
 
-### 👤 User Features
+### prerequisites
+1.  **Node.js**: [Download Here](https://nodejs.org/) (Version 14+ recommended)
+2.  **MongoDB**: You need a running MongoDB instance.
+    *   **Local**: [Download MongoDB Community Server](https://www.mongodb.com/try/download/community)
+    *   **Cloud**: Create a free cluster on [MongoDB Atlas](https://www.mongodb.com/atlas)
 
-* **Authentication**: Secure signup and login using JWT & Bcrypt
-* **Browse Books**: View all available books (Sell & Donate)
-* **Book Details**: See book condition, price, category, and description
-* **Sell Books**: List used books with images and pricing
-* **Donate Books**: Mark books as free for donation
-* **Search & Filter**: Filter by category, type (Sell / Donate), and availability
-* **Cart & Orders**: Add books to cart and place orders
-* **Order History**: Track previous purchases
-* **Profile Management**: Manage user information
-* **Responsive Design**: Works smoothly on mobile and desktop
+### 1️⃣ Clone the Repository
+```bash
+git clone <your-repo-url>
+cd BookStrore
+```
+
+### 2️⃣ Backend Setup
+The backend handles the database and API logic.
+
+1.  **Navigate to the backend folder:**
+    ```bash
+    cd backend
+    ```
+
+2.  **Install Dependencies:**
+    ```bash
+    npm install
+    ```
+
+3.  **Configure Environment Variables:**
+    Create a file named `.env` in the `backend/` directory and add the following:
+    ```env
+    PORT=3000
+    URI=mongodb://localhost:27017/bookStore
+    JWT_SECRET=MySuperSecretKey123!
+    ```
+    *   **PORT**: The port the server runs on (default 3000).
+    *   **URI**: Your MongoDB connection string. If using **MongoDB Atlas**, replace the value with the connection string they provide.
+    *   **JWT_SECRET**: Any random string used to sign login tokens.
+
+4.  **(Optional) Seed Database:**
+    To populate the app with sample books and users (Admin + Regular User):
+    ```bash
+    npm run seed
+    ```
+
+5.  **Start the Server:**
+    ```bash
+    npm start
+    ```
+    You should see: `Server started at the port 3000` and `Connected to database`.
+
+### 3️⃣ Frontend Setup
+The frontend is the user interface built with React.
+
+1.  **Open a NEW terminal window** (keep the backend running).
+
+2.  **Navigate to the frontend folder:**
+    ```bash
+    cd frontend
+    ```
+
+3.  **Install Dependencies:**
+    ```bash
+    npm install
+    ```
+
+4.  **Start the Development Server:**
+    ```bash
+    npm run dev
+    ```
+
+5.  **View the App:**
+    Open your browser and visit: `http://localhost:5173` (or whatever URL Vite displays).
 
 ---
 
-### 🛠️ Admin Features
+## 🔐 Demo Accounts
 
-* **Admin Dashboard**
-* **Manage Books**: Add, edit, or delete book listings
-* **Moderation**: Approve or remove inappropriate listings
-* **Manage Orders**: View and update order status
+If you ran `npm run seed`, these accounts are available:
 
----
-
-## 🌍 Purpose & Impact
-
-* Makes textbooks affordable for underprivileged students
-* Encourages book reuse and sustainability
-* Builds a student-driven sharing economy
-* Supports both selling and donating books
+| Role | Username | Password |
+| :--- | :--- | :--- |
+| **Admin** | `admin` | `password123` |
+| **User** | `rahman` | `password123` |
+| **User** | `fatima` | `password123` |
 
 ---
 
-## 🛠️ Tech Stack
+## 🐛 Troubleshooting
 
-### Frontend
+### Common Issues
 
-* **React**
-* **Vite**
-* **Tailwind CSS**
-* **Redux Toolkit**
-* **React Router DOM**
-* **Axios**
-* **React Icons**
+**1. "Connection refused" or Database Error**
+*   **Cause**: MongoDB is not running locally.
+*   **Fix**: Start MongoDB (e.g., `sudo systemctl start mongod` on Linux) or check your Atlas URI string in `.env`.
 
-### Backend
+**2. Frontend cannot login (API Error)**
+*   **Cause**: Backend is not running or running on a different port.
+*   **Fix**: Ensure backend is running on port `3000`. If you changed the port in `.env`, you must also update the API calls in `frontend/src` (currently hardcoded to 3000).
 
-* **Node.js**
-* **Express.js**
-* **MongoDB**
-* **Mongoose**
-* **JWT (Authentication)**
-* **Bcryptjs**
-* **CORS**
+**3. "Address already in use"**
+*   **Cause**: Another program is using port 3000.
+*   **Fix**: Kill the process using the port (`npx kill-port 3000`) or change the `PORT` in `.env`.
 
 ---
 
 ## 📂 Project Structure
 
 ```
-Boighor-BD/
+BookStrore/
 ├── backend/
-│   ├── conn/          # Database connection
-│   ├── models/        # Mongoose schemas
-│   ├── routes/        # API routes
-│   ├── controllers/   # Business logic
-│   └── seed.js        # Demo data
-├── frontend/
-│   ├── src/
-│   │   ├── components/
-│   │   ├── pages/
-│   │   ├── store/     # Redux store
-│   │   └── utils/
-│   └── ...
-└── README.md
+│   ├── conn/          # Database configuration
+│   ├── models/        # Database Schemas (User, Book, Order)
+│   ├── routes/        # API Endpoints
+│   ├── seed.js        # Script to create demo data
+│   └── app.js         # Entry point
+│
+└── frontend/
+    ├── src/
+    │   ├── components/ # Reusable UI components
+    │   ├── pages/      # Full page views (Login, Home, etc.)
+    │   └── store/      # Redux state management
+    └── vite.config.js
 ```
-
----
-
-## ⚡ Getting Started
-
-### Prerequisites
-
-* Node.js (v14+)
-* MongoDB (Local or Atlas)
-
----
-
-### 🔧 Installation
-
-#### 1️⃣ Clone the Repository
-
-```bash
-git clone <repository-url>
-cd Boighor-BD
-```
-
----
-
-#### 2️⃣ Backend Setup
-
-```bash
-cd backend
-npm install
-```
-
-Create a `.env` file:
-
-```env
-PORT=3000
-URI=your_mongodb_connection_string
-JWT_SECRET=your_secret_key
-```
-
-(Optional) Seed demo data:
-
-```bash
-npm run seed
-```
-
-Start backend:
-
-```bash
-npm start
-```
-
----
-
-#### 3️⃣ Frontend Setup
-
-```bash
-cd ../frontend
-npm install
-npm run dev
-```
-
----
-
-#### 4️⃣ Access App
-
-Open browser:
-
-```
-http://localhost:5173
-```
-
----
-
-## 🔐 Demo Accounts (Seeded)
-
-| Role  | Username | Password    |
-| ----- | -------- | ----------- |
-| Admin | admin    | password123 |
-| User  | rahman   | password123 |
-| User  | fatima   | password123 |
-
----
-
-## 🧠 Future Improvements
-
-* NGO-verified donation system
-* AI-based fair price suggestions
-* Mobile app support
-* SMS-based access for rural users
-
----
-
-
-## 📄 License
-
-This project is licensed under the **MIT License**.
-
